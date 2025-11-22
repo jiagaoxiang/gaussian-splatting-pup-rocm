@@ -79,6 +79,31 @@ Fishers will be saved in the `fisher-pool-<X>/fishers_xyz_scaling` subdirectory 
   </div>
 </section>
 
+<h2 class="title">Related Work</h2>
+<p>For additional papers on efficient 3D Gaussian Splatting, see our group’s related work below. If your
+    research builds on ours, we encourage you to cite these papers.</p>
+<ol>
+    <li>
+        <a href="https://speedysplat.github.io/" target="_blank" rel="noopener">
+            <strong>Speedy-Splat</strong>
+        </a>
+        <em>(CVPR 2025)</em>
+        <small><a href="https://speedysplat.github.io/#BibTeX" target="_blank">[BibTeX]</a></small>
+        — Accelerate 3D Gaussian Splatting rendering speed by over 6× and reduce model size by over 90%
+        through accurately localizing primitives during rasterization and pruning the scene during
+        training, providing a significantly higher speedup than existing techniques while maintaining
+        competitive image quality.
+    </li>
+    <li>
+        <a href="https://speede3dgs.github.io/" target="_blank" rel="noopener">
+            <strong>SpeeDe3DGS</strong>
+        </a>
+        <small><a href="https://speede3dgs.github.io/#BibTeX" target="_blank">[BibTeX]</a></small>
+        — Boost DeformableGS rendering speed from 20 to 276 FPS using temporal sensitivity pruning and
+        groupwise SE(3) motion distillation, all while preserving the superior image quality of per-Gaussian
+        neural motion.
+    </li>
+</ol>
 
 ## Funding and Acknowledgments
 
