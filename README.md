@@ -25,6 +25,14 @@ conda activate gaussian_splatting_pup
 
 We created an additional submodule for CUDA Fisher computation: `rasterization_and_pup_fisher`. Ensure that it is also cloned and installed.
 
+## ROCm / Bayesian_3DGS integration
+
+This fork is validated for use inside the `Bayesian_3DGS` ROCm container environment (`bhm_3dgs`).
+
+- The shared GraphDECO-style dependencies `diff_gaussian_rasterization` and `simple_knn` are expected to come from the parent ROCm environment.
+- The PUP-specific extensions `compress_diff_gaussian_rasterization` and `rasterization_and_pup_fisher` are built locally from this fork under ROCm.
+- The goal of this port is to preserve PUP's pruning and Fisher logic while adapting the build/runtime layer for AMD GPUs. It is an integrated ROCm port for this repository workflow, not a claim of fresh-machine standalone portability.
+
 ## Running
 
 ### Full Pruning Pipeline

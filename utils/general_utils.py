@@ -15,6 +15,26 @@ from datetime import datetime
 import numpy as np
 import random
 
+
+def pick_default_device():
+    if torch.cuda.is_available():
+        return torch.device("cuda:0")
+    return torch.device("cpu")
+
+
+def resolve_tensor_device(reference=None):
+    if reference is not None:
+        return reference.device
+    return pick_default_device()
+
+
+def make_background_tensor(bg_color, reference=None):
+    return torch.tensor(
+        bg_color,
+        dtype=torch.float32,
+        device=resolve_tensor_device(reference),
+    )
+
 def inverse_sigmoid(x):
     return torch.log(x/(1-x))
 
@@ -62,7 +82,11 @@ def get_expon_lr_func(
     return helper
 
 def strip_lowerdiag(L):
-    uncertainty = torch.zeros((L.shape[0], 6), dtype=torch.float, device="cuda")
+    uncertainty = torch.zeros(
+        (L.shape[0], 6),
+        dtype=torch.float,
+        device=resolve_tensor_device(L),
+    )
 
     uncertainty[:, 0] = L[:, 0, 0]
     uncertainty[:, 1] = L[:, 0, 1]
@@ -80,7 +104,7 @@ def build_rotation(r):
 
     q = r / norm[:, None]
 
-    R = torch.zeros((q.size(0), 3, 3), device='cuda')
+    R = torch.zeros((q.size(0), 3, 3), device=resolve_tensor_device(q))
 
     r = q[:, 0]
     x = q[:, 1]
@@ -99,7 +123,11 @@ def build_rotation(r):
     return R
 
 def build_scaling_rotation(s, r):
-    L = torch.zeros((s.shape[0], 3, 3), dtype=torch.float, device="cuda")
+    L = torch.zeros(
+        (s.shape[0], 3, 3),
+        dtype=torch.float,
+        device=resolve_tensor_device(s),
+    )
     R = build_rotation(r)
 
     L[:,0,0] = s[:,0]
@@ -130,4 +158,5 @@ def safe_state(silent):
     random.seed(0)
     np.random.seed(0)
     torch.manual_seed(0)
-    torch.cuda.set_device(torch.device("cuda:0"))
+    if torch.cuda.is_available():
+        torch.cuda.set_device(pick_default_device())

@@ -12,6 +12,7 @@
 from argparse import ArgumentParser, Namespace
 import sys
 import os
+import torch
 
 class GroupParams:
     pass
@@ -52,7 +53,7 @@ class ModelParams(ParamGroup):
         self._images = "images"
         self._resolution = -1
         self._white_background = False
-        self.data_device = "cuda"
+        self.data_device = "cuda" if torch.cuda.is_available() else "cpu"
         self.eval = False
         super().__init__(parser, "Loading Parameters", sentinel)
 
