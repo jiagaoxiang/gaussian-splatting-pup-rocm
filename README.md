@@ -29,9 +29,26 @@ We created an additional submodule for CUDA Fisher computation: `rasterization_a
 
 This fork is validated for use inside the `Bayesian_3DGS` ROCm container environment (`bhm_3dgs`).
 
+The `environment.yml` above remains the legacy CUDA-oriented path from upstream. For the ROCm-integrated workflow used in `Bayesian_3DGS`, use the parent container environment instead of creating the upstream CUDA conda environment.
+
 - The shared GraphDECO-style dependencies `diff_gaussian_rasterization` and `simple_knn` are expected to come from the parent ROCm environment.
 - The PUP-specific extensions `compress_diff_gaussian_rasterization` and `rasterization_and_pup_fisher` are built locally from this fork under ROCm.
 - The goal of this port is to preserve PUP's pruning and Fisher logic while adapting the build/runtime layer for AMD GPUs. It is an integrated ROCm port for this repository workflow, not a claim of fresh-machine standalone portability.
+
+Recommended ROCm verification inside `bhm_3dgs`:
+
+```shell
+python - <<'PY'
+import diff_gaussian_rasterization._C as dg
+import simple_knn._C as sk
+import compress_diff_gaussian_rasterization
+import rasterization_and_pup_fisher
+print("diff", dg.__file__)
+print("simple", sk.__file__)
+print("compress", compress_diff_gaussian_rasterization.__file__)
+print("fisher", rasterization_and_pup_fisher.__file__)
+PY
+```
 
 ## Running
 
